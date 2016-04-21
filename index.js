@@ -13,7 +13,6 @@ function ImportResolver (opts) {
         var oldFile = '',
             resolved = false,
             filename = this.root.pop();
-        filename = this.trimExtension(filename);
 
         this.root = this.root.join('/') + '/';
 
@@ -50,11 +49,12 @@ ImportResolver.prototype.trimExtension = function (filename) {
 
 ImportResolver.prototype.read = function (filename) {
     var stylesheet = '',
-        dir = filename.split('/');
+        dir = filename.split('/'),
+        extname = path.extname(filename);
 
     filename = dir.pop();
     console.log('\x1b[34m', 'Reading ' + filename);
-    filename = this.trimExtension(filename) + this.ext;
+    filename += extname ? '' : this.ext;
     dir = dir.join('/');
 
     this.cwd = path.resolve(this.root, this.cwd, dir) + '/';
